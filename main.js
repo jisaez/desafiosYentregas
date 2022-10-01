@@ -1,3 +1,23 @@
+document.addEventListener('DOMContentLoaded', () =>{
+    
+    addStorageToReserve(),
+    renderMenuOptions(),
+    printModal(reserve),
+    printTotals(reserve),
+    console.log(reserve)
+});
+
+const saveReserveStorage = (reserve) => {
+    localStorage.setItem('reserves', JSON.stringify(reserve));
+};
+
+function addStorageToReserve () {
+    const reservation = localStorage.getItem('reserves')
+    if (reservation){
+        reserve.push(...JSON.parse(reservation));
+    }
+}
+
 const menuOptions = [
     {
         'id':1,
@@ -37,23 +57,7 @@ const menuOptions = [
     }
 ]
 
-//      LOCAL STORAGE    //
-
-document.addEventListener('DOMContentLoaded', () =>{
-    
-    renderMenuOptions()
-    printModal(reserve),
-    printTotals(reserve),
-    // printCounter(),
-    console.log(reserve)
-});
-
-const saveReserveStorage = (reserve) => {
-    localStorage.setItem('reserves', JSON.stringify(reserve));
-};
-
-let reserve = JSON.parse(localStorage.getItem('reserves')) || [];
-console.log(reserve)
+let reserve = [];
 
 //=============   RENDERS
 
@@ -91,7 +95,7 @@ function renderMenuOptions (){
         menus.appendChild(menu);
         
         let quant = document.getElementById(`quant${m.id}`);
-        printCounter(m.id, quant);
+        
 
         document.getElementById(`remove${m.id}`).addEventListener('click', ()=>{
             removeMenuFromReserve(m.id);
@@ -107,7 +111,7 @@ function renderMenuOptions (){
             resetReserve(m.id);
             printCounter(m.id, quant);
         });
-
+        printCounter(m.id, quant);
     });   
 
 };
@@ -117,11 +121,10 @@ function addMenuToReserve(id){
     let menu = menuOptions.find(menu => menu.id === id);
     let menuInReserve = reserve.find(menu => menu.id === id);
     if(menuInReserve){
-        menu.quant ++
+        menuInReserve.quant ++
     }else {        
         menu.quant = 1;
         reserve.push(menu)
-        
     };
 
     printModal(reserve)
@@ -133,7 +136,6 @@ function addMenuToReserve(id){
 
 //    SACAR DEL CARRITO  //
 function removeMenuFromReserve(id){
-    // let menu = menuOptions.find(menu => menu.id === id);
     let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
     if(!menuInReserve){
         alert('este menu no esta en la reserva')
@@ -159,16 +161,13 @@ function resetReserve(){
     saveReserveStorage(reserve)
 };
 
-
-
 //====== PRINTS =================
 function printCounter(id, quant){
-    let menu = menuOptions.find(menu => menu.id === id);
     let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
     if(!menuInReserve){
         quant.innerText = 0;
     }else {        
-        quant.innerText = menu.quant;
+        quant.innerText = menuInReserve.quant;
     };
 };
 
@@ -203,4 +202,3 @@ function printTotals(reserve){
 
     modalTotals.appendChild(modalTotal);
 };
-
