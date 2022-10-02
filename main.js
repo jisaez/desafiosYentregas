@@ -13,9 +13,8 @@ const saveReserveStorage = (reserve) => {
 
 function addStorageToReserve () {
     const reservation = localStorage.getItem('reserves')
-    if (reservation){
-        reserve.push(...JSON.parse(reservation));
-    }
+    //operador AND y SPREAD
+    reservation && reserve.push(...JSON.parse(reservation));
 }
 
 const menuOptions = [
@@ -120,12 +119,14 @@ function renderMenuOptions (){
 function addMenuToReserve(id){  
     let menu = menuOptions.find(menu => menu.id === id);
     let menuInReserve = reserve.find(menu => menu.id === id);
-    if(menuInReserve){
-        menuInReserve.quant ++
-    }else {        
-        menu.quant = 1;
-        reserve.push(menu)
-    };
+    // TERNARIO
+    menuInReserve ?  menuInReserve.quant ++ : (menu.quant =1, reserve.push(menu))
+    // if(menuInReserve){
+    //     menuInReserve.quant ++
+    // }else {        
+    //     menu.quant = 1;
+    //     reserve.push(menu)
+    // };
 
     printModal(reserve)
     printTotals(reserve)
@@ -164,11 +165,13 @@ function resetReserve(){
 //====== PRINTS =================
 function printCounter(id, quant){
     let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
-    if(!menuInReserve){
-        quant.innerText = 0;
-    }else {        
-        quant.innerText = menuInReserve.quant;
-    };
+    // OPERADOR TERNARIO
+    !menuInReserve ? quant.innerText = 0 : quant.innerText = menuInReserve.quant;
+    // if(!menuInReserve){
+    //     quant.innerText = 0;
+    // }else {        
+    //     quant.innerText = menuInReserve.quant;
+    // };
 };
 
 
@@ -177,12 +180,13 @@ function printModal(reserve){
     let modalReserve = document.getElementById('modalBody');
     modalReserve.innerHTML = '';
 
-    reserve.forEach((m) => {
+    // DESESTRUCTURACION 
+    reserve.forEach(({quant, menuName}) => {
             let modalText = document.createElement('div');
             modalText.classList.add('text-start');
-            modalText.innerHTML = `<p>${m.quant} menu ${m.menuName}</p>`;
+            modalText.innerHTML = `<p>${quant} menu ${menuName}</p>`;
 
-            if (`${m.quant}` > 0 ){
+            if (`${quant}` > 0 ){
             modalBody.appendChild(modalText);
             };
         });
