@@ -98,8 +98,9 @@ function renderMenuOptions (){
 
         document.getElementById(`remove${m.id}`).addEventListener('click', ()=>{
             removeMenuFromReserve(m.id);
-            printCounter(m.id, quant);    
-        });
+            printCounter(m.id, quant); 
+            
+            });
 
         document.getElementById(`add${m.id}`).addEventListener('click',()=>{
             addMenuToReserve(m.id); 
@@ -128,6 +129,12 @@ function addMenuToReserve(id){
     //     reserve.push(menu)
     // };
 
+    Toastify({
+        text: "Agregaste un comensal",
+        style: {background: "#085492"},
+        duration: 1400
+        }).showToast();
+
     printModal(reserve)
     printTotals(reserve)
     saveReserveStorage(reserve);
@@ -139,13 +146,49 @@ function addMenuToReserve(id){
 function removeMenuFromReserve(id){
     let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
     if(!menuInReserve){
-        alert('este menu no esta en la reserva')
+        // alert('este menu no esta en la reserva')
+
+        Swal.fire({
+            
+            icon:  'warning',
+            iconColor: '#b22420',
+            title: 'Este menú no está en la reserva',
+            showConfirmButton: false,
+            timer: 4500,
+            showClass:{
+                popup: 'swal2-show',
+                backdrop: 'swal2-backdrop-show',
+                icon: 'swal2-icon-show'   
+            },
+            hideClass:{
+                    popup: 'swal2-hide',
+                    backdrop: 'swal2-backdrop-hide',
+                    icon: 'swal2-icon-hide'
+            }
+        })
+
     } else if(menuInReserve.quant === 0){
         let i= reserve.indexOf(menuInReserve);
         reserve.splice(i,1);
+
+        Toastify({
+            text: "Eliminaste un comensal",
+            style: {background: "#b22420"},
+            duration: 1400
+            }).showToast();
+
     } else{
         menuInReserve.quant --;
+
+        Toastify({
+            text: "Eliminaste un comensal",
+            style: {background: "#b22420"},
+            duration: 1400
+            }).showToast();
+
     };
+
+
 
     printModal(reserve)
     printTotals(reserve)
