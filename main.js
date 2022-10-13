@@ -10,51 +10,50 @@ document.addEventListener('DOMContentLoaded', () =>{
 const saveReserveStorage = (reserve) => {
     localStorage.setItem('reserves', JSON.stringify(reserve));
 };
-
+const menuOptions = 
+[
+    {
+        "id":1,
+        "menuName": "Pizza",
+        "img": "img/pizza.jpeg",
+        "description": "Una pizza grande a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
+        "price": 300,
+        "quant": 0,
+        "alt": "Foto de una pizza "
+    },
+    {
+        "id":2,
+        "menuName": "Pasta",
+        "img": "img/pasta.jpeg",
+        "description": "Un plato de pasta a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
+        "price": 450,
+        "quant": 0,
+        "alt": "Foto de un plato de pasta"
+    },
+    {
+        "id":3,
+        "menuName": "Parrilla",
+        "img": "img/parrilla.jpg",
+        "description": "Un corte de carne a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
+        "price": 600,
+        "quant": 0,
+        "alt": "Foto de un corte de carne cocinado al estilo argentino"
+    },
+    {
+        "id":4,
+        "menuName": "A la carta",
+        "img": "img/ilustracionmenu.svg",
+        "description": "Elegirás tu comida y tu bebida en el restaurante. El importe de la reserva se descontará del total de la cuenta",
+        "price": 100,
+        "quant": 0,
+        "alt": "ilustración de la palabra menú"
+    }
+];
 function addStorageToReserve () {
     const reservation = localStorage.getItem('reserves')
     //operador AND y SPREAD
     reservation && reserve.push(...JSON.parse(reservation));
 }
-
-const menuOptions = [
-    {
-        'id':1,
-        'menuName': 'Pizza',
-        'img': 'img/pizza.jpeg',
-        'description': 'Una pizza grande a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café',
-        'price': 300,
-        'quant': 0,
-        'alt': 'Foto de una pizza '
-    },
-    {
-        'id':2,
-        'menuName': 'Pasta',
-        'img': 'img/pasta.jpeg',
-        'description': 'Un plato de pasta a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café',
-        'price': 450,
-        'quant': 0,
-        'alt': 'Foto de un plato de pasta'
-    },
-    {
-        'id':3,
-        'menuName': 'Parrilla',
-        'img': 'img/parrilla.jpg',
-        'description': 'Un corte de carne a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café',
-        'price': 600,
-        'quant': 0,
-        'alt': 'Foto de un corte de carne cocinado al estilo argentino'
-    },
-    {
-        'id':4,
-        'menuName': 'A la carta',
-        'img': 'img/ilustracionmenu.svg',
-        'description': 'Elegirás tu comida y tu bebida en el restaurante. El importe de la reserva se descontará del total de la cuenta',
-        'price': 100,
-        'quant': 0,
-        'alt': 'ilustración de la palabra menú'
-    }
-]
 
 let reserve = [];
 
@@ -64,7 +63,12 @@ function renderMenuOptions (){
 
     const menus = document.getElementById('menus');
 
-    menuOptions.forEach((m) => {
+    // AGREGO FETCH CON RUTA RELATIVA
+    fetch('/stock.json')
+    .then((response) => response.json())
+    .then((opciones) => { 
+
+    opciones.forEach((m) => {
         let menu = document.createElement('div')
         menu.classList.add('col-12');
         menu.classList.add('col-lg-4');
@@ -113,7 +117,7 @@ function renderMenuOptions (){
         });
         printCounter(m.id, quant);
     });   
-
+});
 };
 
 // AGREGAR AL CARRITO //
