@@ -7,9 +7,16 @@ document.addEventListener('DOMContentLoaded', () =>{
     console.log(reserve)
 });
 
-const saveReserveStorage = (reserve) => {
+const saveReserveStorage = (reserve, reserveData) => {
     localStorage.setItem('reserves', JSON.stringify(reserve));
 };
+
+function addStorageToReserve () {
+    const reservation = localStorage.getItem('reserves')
+    //operador AND y SPREAD
+    reservation && reserve.push(...JSON.parse(reservation));
+};
+
 const menuOptions = 
 [
     {
@@ -49,11 +56,7 @@ const menuOptions =
         "alt": "ilustración de la palabra menú"
     }
 ];
-function addStorageToReserve () {
-    const reservation = localStorage.getItem('reserves')
-    //operador AND y SPREAD
-    reservation && reserve.push(...JSON.parse(reservation));
-}
+
 
 let reserve = [];
 
@@ -71,7 +74,7 @@ function renderMenuOptions (){
     opciones.forEach((m) => {
         let menu = document.createElement('div')
         menu.classList.add('col-12');
-        menu.classList.add('col-lg-4');
+        menu.classList.add('col-lg-3');
         menu.classList.add('col-md-6');
         menu.classList.add('mb-5');
         menu.classList.add('d-flex');
@@ -115,6 +118,12 @@ function renderMenuOptions (){
             resetReserve(m.id);
             printCounter(m.id, quant);
         });
+
+        document.getElementById('btnConfirm').addEventListener('click', () => {
+            resetReserve(m.id);
+            printCounter(m.id, quant);
+        });
+
         printCounter(m.id, quant);
     });   
 });
@@ -150,10 +159,7 @@ function addMenuToReserve(id){
 function removeMenuFromReserve(id){
     let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
     if(!menuInReserve){
-        // alert('este menu no esta en la reserva')
-
         Swal.fire({
-            
             icon:  'warning',
             iconColor: '#b22420',
             title: 'Este menú no está en la reserva',
@@ -192,8 +198,6 @@ function removeMenuFromReserve(id){
 
     };
 
-
-
     printModal(reserve)
     printTotals(reserve)
     saveReserveStorage(reserve);
@@ -205,7 +209,7 @@ function resetReserve(){
     reserve.splice(0, (reserve.length));
     printModal(reserve)
     printTotals(reserve)
-    console.log(reserve)
+    // console.log(reserve)
     saveReserveStorage(reserve)
 };
 
@@ -253,3 +257,21 @@ function printTotals(reserve){
 
     modalTotals.appendChild(modalTotal);
 };
+
+// ================= CONFIRM & GET DATA ===============
+
+const confirmReserve = document.getElementById ('btnConfirm');
+confirmReserve.addEventListener('click', (e) =>{
+    Swal.fire({
+        title: 'Tu reserva fue confirmada',
+        showConfirmButton: false,
+        timer: 5000,
+        showClass: {
+        popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+        popup: 'animate__animated animate__fadeOutUp'
+        }
+    })
+
+});
