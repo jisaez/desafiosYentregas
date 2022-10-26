@@ -30,7 +30,7 @@
         "id":4,
         "menuName": "A la carta",
         "img": "img/ilustracionmenu.svg",
-        "description": "Elegirás tu comida y tu bebida en el restaurante. El importe de la reserva se descontará del total de la cuenta",
+        "description": "Elegirás tu comida, tu bebida y si deseas postre en el restaurante. El importe de la reserva se descontará del total de la cuenta",
         "price": 100,
         "quant": 0,
         "alt": "ilustración de la palabra menú"

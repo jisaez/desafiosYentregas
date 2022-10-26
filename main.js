@@ -3,11 +3,10 @@ document.addEventListener('DOMContentLoaded', () =>{
     addStorageToReserve(),
     renderMenuOptions(),
     printModal(reserve),
-    printTotals(reserve),
-    console.log(reserve)
+    printTotals(reserve)
 });
 
-const saveReserveStorage = (reserve, reserveData) => {
+const saveReserveStorage = (reserve) => {
     localStorage.setItem('reserves', JSON.stringify(reserve));
 };
 
@@ -16,47 +15,6 @@ function addStorageToReserve () {
     //operador AND y SPREAD
     reservation && reserve.push(...JSON.parse(reservation));
 };
-
-const menuOptions = 
-[
-    {
-        "id":1,
-        "menuName": "Pizza",
-        "img": "img/pizza.jpeg",
-        "description": "Una pizza grande a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
-        "price": 300,
-        "quant": 0,
-        "alt": "Foto de una pizza "
-    },
-    {
-        "id":2,
-        "menuName": "Pasta",
-        "img": "img/pasta.jpeg",
-        "description": "Un plato de pasta a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
-        "price": 450,
-        "quant": 0,
-        "alt": "Foto de un plato de pasta"
-    },
-    {
-        "id":3,
-        "menuName": "Parrilla",
-        "img": "img/parrilla.jpg",
-        "description": "Un corte de carne a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
-        "price": 600,
-        "quant": 0,
-        "alt": "Foto de un corte de carne cocinado al estilo argentino"
-    },
-    {
-        "id":4,
-        "menuName": "A la carta",
-        "img": "img/ilustracionmenu.svg",
-        "description": "Elegirás tu comida y tu bebida en el restaurante. El importe de la reserva se descontará del total de la cuenta",
-        "price": 100,
-        "quant": 0,
-        "alt": "ilustración de la palabra menú"
-    }
-];
-
 
 let reserve = [];
 
@@ -69,9 +27,9 @@ function renderMenuOptions (){
     // AGREGO FETCH CON RUTA RELATIVA
     fetch('/stock.json')
     .then((response) => response.json())
-    .then((opciones) => { 
+    .then((options) => { 
 
-    opciones.forEach((m) => {
+    options.forEach((m) => {
         let menu = document.createElement('div')
         menu.classList.add('col-12');
         menu.classList.add('col-lg-3');
@@ -83,7 +41,7 @@ function renderMenuOptions (){
         menu.innerHTML = `
         <div class="card text-dark" style="width: 20rem;">
             <img class="card-img-top h-50" src="${m.img}" alt="${m.alt}">
-            <div class="card-body">
+            <div class="card-body m-1">
                 <h5 class="card-title">${m.menuName}</h5>
                 <p class="card-text">${m.description}</p>
                 <p>${m.price}</p>
@@ -123,35 +81,33 @@ function renderMenuOptions (){
             resetReserve(m.id);
             printCounter(m.id, quant);
         });
-
         printCounter(m.id, quant);
     });   
 });
 };
 
+
 // AGREGAR AL CARRITO //
 function addMenuToReserve(id){  
+    fetch('/stock.json')
+    .then((response) => response.json())
+    .then((menuOptions) => { 
     let menu = menuOptions.find(menu => menu.id === id);
     let menuInReserve = reserve.find(menu => menu.id === id);
     // TERNARIO
-    menuInReserve ?  menuInReserve.quant ++ : (menu.quant =1, reserve.push(menu))
-    // if(menuInReserve){
-    //     menuInReserve.quant ++
-    // }else {        
-    //     menu.quant = 1;
-    //     reserve.push(menu)
-    // };
+    menuInReserve ?  menuInReserve.quant ++ : (menu.quant = 1, reserve.push(menu))
 
     Toastify({
         text: "Agregaste un comensal",
         style: {background: "#085492"},
         duration: 1400
         }).showToast();
-
+    
     printModal(reserve)
     printTotals(reserve)
     saveReserveStorage(reserve);
     console.log(reserve)
+    });
 };
 // finAGREGAR AL CARRITO //
 
@@ -209,20 +165,18 @@ function resetReserve(){
     reserve.splice(0, (reserve.length));
     printModal(reserve)
     printTotals(reserve)
-    // console.log(reserve)
     saveReserveStorage(reserve)
 };
 
 //====== PRINTS =================
 function printCounter(id, quant){
-    let menuInReserve = reserve.find(menuInReserve => menuInReserve.id === id);
-    // OPERADOR TERNARIO
+    fetch('/stock.json')
+    .then((response) => response.json())
+    .then(() => { 
+    let menuInReserve = reserve.find(menu => menu.id === id);
     !menuInReserve ? quant.innerText = 0 : quant.innerText = menuInReserve.quant;
-    // if(!menuInReserve){
-    //     quant.innerText = 0;
-    // }else {        
-    //     quant.innerText = menuInReserve.quant;
-    // };
+    });
+    
 };
 
 
