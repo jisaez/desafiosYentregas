@@ -2,7 +2,7 @@
     {
         "id":1,
         "menuName": "Pizza",
-        "img": "img/pizza.jpeg",
+        "img": "./img/pizza.jpeg",
         "description": "Una pizza grande a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
         "price": 300,
         "quant": 0,
