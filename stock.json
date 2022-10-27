@@ -11,7 +11,7 @@
     {
         "id":2,
         "menuName": "Pasta",
-        "img": "img/pasta.jpeg",
+        "img": "../img/pasta.jpeg",
         "description": "Un plato de pasta a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
         "price": 450,
         "quant": 0,
