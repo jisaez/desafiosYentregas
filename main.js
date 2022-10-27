@@ -25,7 +25,7 @@ function renderMenuOptions (){
     const menus = document.getElementById('menus');
 
     // AGREGO FETCH CON RUTA RELATIVA
-    fetch('/stock.json')
+    fetch('../stock.json')
     .then((response) => response.json())
     .then((options) => { 
 
