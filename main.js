@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () =>{
     
-    addStorageToReserve(),
+    // addStorageToReserve(),
     renderMenuOptions(),
     printModal(reserve),
     printTotals(reserve)
@@ -185,12 +185,10 @@ function printModal(reserve){
     let modalReserve = document.getElementById('modalBody');
     modalReserve.innerHTML = '';
 
-    // DESESTRUCTURACION 
     reserve.forEach(({quant, menuName}) => {
             let modalText = document.createElement('div');
             modalText.classList.add('text-start');
             modalText.innerHTML = `<p>${quant} menu ${menuName}</p>`;
-
             if (`${quant}` > 0 ){
             modalBody.appendChild(modalText);
             };
@@ -208,14 +206,13 @@ function printTotals(reserve){
     modalTotal.classList.add('text-start');
     modalTotal.innerHTML = `<p>Comensales: ${totalQ}</p>
                             <p>Total a pagar: MXN ${totalReserve}</p>`;
-
     modalTotals.appendChild(modalTotal);
 };
 
 // ================= CONFIRM & GET DATA ===============
 
 const confirmReserve = document.getElementById ('btnConfirm');
-confirmReserve.addEventListener('click', (e) =>{
+confirmReserve.addEventListener('click', () =>{
     Swal.fire({
         title: 'Tu reserva fue confirmada',
         showConfirmButton: false,

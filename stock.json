@@ -20,7 +20,7 @@
     {
         "id":3,
         "menuName": "Parrilla",
-        "img": "img/parrilla.jpg",
+        "img": "../img/parrilla.jpg",
         "description": "Un corte de carne a elección. Una bebida a elección (refresco, limonada, cerveza o copa de vino). Postre o café",
         "price": 600,
         "quant": 0,
